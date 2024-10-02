@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Parking Availability</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            body {
+                background-color: #f8f9fa;
+            }
+            .container h1{
+                margin-top: 20px;
+                text-align: center;
+            }
+            
+            .container h4{
+                font-size: 20px;
+            }
+            .card {
+                margin: 10px;
+            }
+            .form-group{
+                margin: 50px 0;
+                display: flex;
+                row-gap: 50px;
+                align-items: center;
+            }
+            .form-group select{
+                width: 200px;
+                margin: 0 30px;
+            }
+
+            #destination{
+                height: 50px;
+                width: 200px;
+            }
+            .row{
+                margin: 50px 0;
+            }
+        </style>
+  </head>
+  <body>
+    <div class="container">
+        <h1>Parking Availability</h1>
+        <h4>Date: {{ date }}</h4>
+        
+        <!-- Search Bar -->
+        <div class="form-group">
+            <label for="locationSearch">Destination:</label>
+            <select id="locationSelect" class="form-control">
+                <option value=1>Select a location</option>
+                <option value="singanallur" {% if request.args.get('location') == 'singanallur' %} selected {% endif %}>Singanallur</option>
+                <option value="sulur" {% if request.args.get('location') == 'sulur' %} selected {% endif %}>Sulur</option>
+            </select>
+            <button id="searchButton" class="btn btn-primary mt-2">Search</button>
+
+        </div>
+        
+        <!-- Location Dropdown -->
+        
+        <div class="row mt-4">
+            {% for parking in parking_data %}
+                <div class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Parking {{ parking.parking_space }}</h5>
+                            <p class="card-text">Available Slots: {{ parking.total_slots - parking.slots_filled }} / {{ parking.total_slots }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <script>
+
+        document.getElementById('searchButton').addEventListener('click', function() {
+            var selectedLocation = document.getElementById('locationSelect').value;
+            if (selectedLocation === "1"){
+                alert("Please Select an Place");
+            }
+            if (selectedLocation) {
+                window.location.href = '/?location=' + encodeURIComponent(selectedLocation);
+            }
+        });
+    </script>
+  </body>
+</html>
