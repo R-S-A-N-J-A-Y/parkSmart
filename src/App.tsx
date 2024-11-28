@@ -1,3 +1,5 @@
+import "bootstrap/dist/css/bootstrap.css";
+
 const  App = () => {
   return <h1>PARKSMART</h1>;
 }
